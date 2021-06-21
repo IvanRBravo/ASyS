@@ -1,0 +1,613 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>P05 Series de Fourier en Tiempo Continuo</title><meta name="generator" content="MATLAB 9.10"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-06-20"><meta name="DC.source" content="ASySPracP05IvanRodrigoSantacruzBravo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>P05 Series de Fourier en Tiempo Continuo</h1><!--introduction--><p><b>INTEGRANTES</b></p><div><ul><li>Carlos Josafath L&oacute;pez Favila</li><li>Iv&aacute;n Rodrigo Santacruz Bravo</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">OBJETIVOS</a></li><li><a href="#3">Ejemplo 6.2 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos. Utilizar A =1.</a></li><li><a href="#8">Ejemplo 6.4 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos.</a></li><li><a href="#12">PR08 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos (hay dos series en esta tarea).</a></li><li><a href="#23">PR10 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos (ejercicio 1 y <img src="ASySPracP05IvanRodrigoSantacruzBravo_eq13176458287187595405.png" alt="$a=2$">).</a></li><li><a href="#27">REFERENCIAS</a></li><li><a href="#29">Apendices</a></li></ul></div><h2 id="1">OBJETIVOS</h2><div><ul><li>Realizar gr&aacute;ficas de series de Fourier exponenciales y trigonom&eacute;tricas en tiempo continuo</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li></ul></div><h2 id="3">Ejemplo 6.2 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos. Utilizar A =1.</h2><p>Para este ejercicio debemos de representar las Series de Fourier de la siguiente funci&oacute;n:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq11376918352139967997.png" alt="$$x(t)= \left\{ \begin{array}{lcc} 2t &amp;   si  &amp; |t| < \frac{1}{2} \\ \\ 2(1-t) &amp;  si &amp; \frac{1}{2} < x < \frac{3}{2} \\  \end{array} \right.$$"></p><p>En el intervalo [-1/2,3/2]</p><p>Tenemos que la serie de Fourier exponencial compleja de x(t) es</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq03023604330739870348.png" alt="$S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{j2n t}$"></p><p>Donde</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq15460793346519734369.png" alt="$D_o = 0$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq04276061482834023544.png" alt="$D_n=-j\frac{4}{(n\pi)^2}Sin(\frac{n\pi}{2})$"></p><p>Para este ejercicio, la serie de Fourier Exponencial es:</p><pre class="codeinput">close
+dn=@(n) -i*(4*sin((n*pi)/2)/((n*pi)^2));
+d0=0;
+t0=-1/2;
+tf=3/2;
+f=@(t) (2*t).*(heaviside(t+1/2)-heaviside(t-1/2))+(2*(1-t).*(heaviside(t-1/2)-heaviside(t-3/2)));
+armo=15;
+a=-1/2;
+b=10;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_01.png" alt=""> <p>Para la serie Trigonom&eacute;trica compacta sabemos que:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq10853020925593954740.png" alt="$C_0=0$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq04907610492116897121.png" alt="$C_n=\frac{8}{(n\pi)^2}Sin(\frac{n\pi}{2})$"></p><p>Y la serie de Fourier Trigonom&eacute;trica compacta es:</p><pre class="codeinput">close
+t0=-1/2;
+tf=3/2;
+F=@(t) (2*t).*(heaviside(t+1/2)-heaviside(t-1/2))+(2*(1-t).*(heaviside(t-1/2)-heaviside(t-3/2)));
+armo=15;
+a=-1/2;
+b=10;
+SFTC(t0,tf,F,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_02.png" alt=""> <h2 id="8">Ejemplo 6.4 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos.</h2><p>Para este ejercicio debemos de representar las Series de Fourier de la siguiente funci&oacute;n:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq01252231565290109246.png" alt="$$x(t)=\left\{ \begin{array}{lcc} 1 &amp;   si  &amp; -\frac{\pi}{2}< t < \frac{\pi}{2} \\ \\ 0 &amp;  si &amp; \frac{\pi}{2} < x < \frac{3\pi}{2} \\  \end{array} \right.$$"></p><p>En el intervalo [-pi/2,3*pi/2]</p><p>Tenemos que la serie de Fourier exponencial compleja de x(t) es</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq02231237094219098520.png" alt="$S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{j2\pi n t}$"></p><p>Donde</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq16927408127667554189.png" alt="$D_o = \frac{1}{2}$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq17087755476081289834.png" alt="$D_n= \frac{Sin(\frac{n\pi}{2})}{n\pi}$"></p><pre class="codeinput">close
+dn=@(n) sin(n*pi/2)/(n*pi);
+d0=1/2;
+t0=-pi/2;
+tf=3*pi/2;
+f=@(t) 1*(heaviside(t+pi/2)-heaviside(t-pi/2));
+armo=15;
+a=-pi/2;
+b=10*pi-pi/2;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_03.png" alt=""> <p>Para la serie Trigonom&eacute;trica compacta sabemos que:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq08273871631023779828.png" alt="$C_0= \frac{1}{2}$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq11716672077605603141.png" alt="$C_n=\frac{Sin(\frac{n\pi}{2})}{n\pi}$"></p><p>Y la serie de Fourier Trigonom&eacute;trica compacta es:</p><pre class="codeinput">close
+t0=-pi/2;
+tf=3*pi/2;
+F=@(t) 1*(heaviside(t+pi/2)-heaviside(t-pi/2));
+armo=15;
+a=-pi/2;
+b=10*pi-pi/2;
+SFTC(t0,tf,F,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_04.png" alt=""> <h2 id="12">PR08 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos (hay dos series en esta tarea).</h2><p>Para el inciso a) debemos de representar las Series de Fourier de la siguiente funci&oacute;n: <img src="ASySPracP05IvanRodrigoSantacruzBravo_eq06045830825048329168.png" alt="$f(t)=t$"> En el intervalo [-1,1]</p><p>Tenemos que la serie de Fourier exponencial compleja de f(t) es</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq17721258788549865935.png" alt="$S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{jn\pi t}$"></p><p>Donde</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq15460793346519734369.png" alt="$D_o = 0$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq05136338338682787543.png" alt="$D_n=j\frac{Cos(n\pi)}{n\pi}$"></p><p>Para el inciso a), la serie de Fourier Exponencial es:</p><pre class="codeinput">close
+dn=@(n) i*(cos(n*pi)/(n*pi));
+d0=0;
+t0=-1;
+tf=1;
+f=@(t) t;
+armo=15;
+a=-1;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_05.png" alt=""> <p>Para la serie Trigonom&eacute;trica compacta sabemos que:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq08555644415831603846.png" alt="$C_0= 0$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq15875700961274342044.png" alt="$C_n=\frac{-2 Cos(n\pi)}{n\pi}$"></p><p>Y la serie de Fourier Trigonom&eacute;trica compacta es:</p><pre class="codeinput">close
+t0=-1;
+tf=1;
+F=@(t) t;
+armo=15;
+a=-1;
+b=9;
+SFTC(t0,tf,F,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_06.png" alt=""> <p>En el siguiente <a href="https://www.desmos.com/calculator/yzo07c9ccn?lang=es">enlace</a> podr&aacute;s ver la Serie de Fourier Trigonom&eacute;trica en Desmos</p><p>Para el inciso b) debemos de representar las Series de Fourier de la siguiente funci&oacute;n: <img src="ASySPracP05IvanRodrigoSantacruzBravo_eq10400099567566201704.png" alt="$f(t)=t^2$"> En el intervalo [-2,2]</p><p>Tenemos que la serie de Fourier exponencial compleja de f(t) es</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq17432248618028831888.png" alt="$S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{jn\frac{\pi}{2} t}$"></p><p>Donde</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq10301970276885373616.png" alt="$D_o = \frac{4}{3}$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq14396019424485970169.png" alt="$D_n=8\frac{Cos(n\pi)}{(n\pi)^2}$"></p><pre class="codeinput">close
+dn=@(n) 8*cos(n*pi)/((n*pi)^2);
+d0=4/3;
+t0=-2;
+tf=2;
+f=@(t) t.^2;
+armo=15;
+a=-2;
+b=18;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_07.png" alt=""> <p>Para la serie Trigonom&eacute;trica compacta sabemos que:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq08528185796780222327.png" alt="$C_0= \frac{4}{3}$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq12241541014777496440.png" alt="$C_n=16\frac{Cos(n\pi)}{(n\pi)^2}$"></p><p>Y la serie de Fourier Trigonom&eacute;trica compacta es:</p><pre class="codeinput">close
+t0=-2;
+tf=2;
+F=@(t) t.^2;
+armo=15;
+a=-2;
+b=18;
+SFTC(t0,tf,F,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_08.png" alt=""> <p>En el siguiente <a href="https://www.desmos.com/calculator/gp2zymaakw?lang=es">enlace</a> podr&aacute;s ver la Serie de Fourier Trigonom&eacute;trica en Desmos</p><h2 id="23">PR10 Agregar la expresi&oacute;n an&aacute;litica de la serie en ambos formatos (ejercicio 1 y <img src="ASySPracP05IvanRodrigoSantacruzBravo_eq13176458287187595405.png" alt="$a=2$">).</h2><p>Para este ejercicio debemos de representar las Series de Fourier de la siguiente funci&oacute;n:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq09949228383978436755.png" alt="$$f(t)= 2e^{-2|t|} $$"></p><p>En el intervalo [-1,1]</p><p>Tenemos que la serie de Fourier exponencial compleja de x(t) es</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq09750607805306831107.png" alt="$S_f (t)=\sum_{n=-\infty}^{\infty} \frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2} e^{jn\pi t}$"></p><p>Donde</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq03716293527960613359.png" alt="$D_o =  0.8647$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq02216699791504521830.png" alt="$D_n= \frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2}$"></p><pre class="codeinput">close
+dn=@(n) (4*(1-exp(-2)*cos(n*pi)))/(4+(n*pi)^2);
+d0= 0.8647;
+t0=-1;
+tf=1;
+f=@(t) 2*exp(-2*abs(t));
+armo=15;
+a=-1;
+b=10;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_09.png" alt=""> <p>Para la serie Trigonom&eacute;trica compacta sabemos que:</p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq07133027924408773121.png" alt="$C_0=  0.8647$"></p><p><img src="ASySPracP05IvanRodrigoSantacruzBravo_eq07010544143500339394.png" alt="$C_n=2|\frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2}|$"></p><p>Y la serie de Fourier Trigonom&eacute;trica compacta es:</p><pre class="codeinput">close
+t0=-1;
+tf=1;
+F=@(t) 2*exp(-2*abs(t));
+armo=15;
+a=-1;
+b=10;
+SFTC(t0,tf,F,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPracP05IvanRodrigoSantacruzBravo_10.png" alt=""> <h2 id="27">REFERENCIAS</h2><div><ul><li>Lathi, E. B. P., &amp; Green, A. P. R. (2017). Linear Systems and Signals (3rd ed.). Oxford University Press, USA.</li></ul></div><h2 id="29">Apendices</h2><pre class="language-matlab">
+<span class="keyword">function</span> sfc(t0,tf,dn,d0,f,armo,a,b)
+<span class="comment">% t0 el valor inicial para calcular la serie</span>
+<span class="comment">% tf el valor final donde calcular la serie</span>
+<span class="comment">% dn funci&oacute;n de la f&oacute;rmula de los dn</span>
+<span class="comment">% f funci&oacute;n original</span>
+<span class="comment">% armo n&uacute;mero de armonicos a utilizar en la gr&aacute;fica</span>
+<span class="comment">% a, b intevalo para realizar la grafica de la serie</span>
+
+w0=2*pi/(tf-t0);
+
+sf=d0;
+t=a:0.0001:b;
+
+<span class="keyword">for</span> n=1:armo
+    sf=sf+dn(-n)*exp(w0*-n*t*j)+dn(n)*exp(w0*n*t*j);
+<span class="keyword">end</span>
+figure (1)
+hFig = figure(1);
+set(hFig, <span class="string">'Position'</span>, [0 0 900 900])
+subplot(3,2,1)
+plot(t,sf,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+legend(<span class="string">'Serie de Fourier'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+
+sf=d0;
+t1=t0:0.0001:tf;
+
+<span class="keyword">for</span> n=1:armo
+    sf=sf+dn(-n)*exp(w0*-n*t1*j)+dn(n)*exp(w0*n*t1*j);
+<span class="keyword">end</span>
+
+subplot(3,2,2)
+plot(t1,f(t1),<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+hold <span class="string">on</span>
+plot(t1,sf,<span class="string">'LineWidth'</span>,2)
+legend(<span class="string">'Funci&oacute;n original'</span>,<span class="string">'Serie de Fourier '</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+nn=-armo:armo;
+axis <span class="string">auto</span>
+
+subplot(3,2,4)
+e=f(t1)-sf;
+plot(t1,e,<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Error'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+
+subplot(3,2,6)
+e=f(t1)-sf;
+area(t1,e.^2)
+legend(<span class="string">'Energia del error'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+
+absdn=zeros(1,length(nn));
+cont=1;
+<span class="keyword">for</span> i =-armo:armo
+    <span class="keyword">if</span> i==0
+        absdn(cont)=d0;
+    <span class="keyword">end</span>
+    
+    absdn(cont)=dn(i);
+    cont=cont+1;
+<span class="keyword">end</span>
+
+subplot(3,2,3)
+stem(w0*nn,abs(absdn),<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Espectro de magnitud D_n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+
+subplot(3,2,5) <span class="comment">% % </span>
+stem(w0*nn,angle(absdn),<span class="string">'LineWidth'</span>,2) <span class="comment">% % </span>
+title(<span class="string">'Espectro de fase, \angle de D_n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16) <span class="comment">% % </span>
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+
+<span class="keyword">end</span>
+
+</pre><pre class="language-matlab">
+<span class="keyword">function</span> SFTC(t0,tf,F,armo,a,b)
+<span class="comment">%SFTC Serie de Fourier Trigonom&eacute;trica Compacta</span>
+<span class="comment">% t0 el valor inicial para calcular la serie</span>
+<span class="comment">% tf el valor final donde calcular la serie</span>
+<span class="comment">% f funci&oacute;n original (Tipo simb&oacute;lico)</span>
+<span class="comment">% armo n&uacute;mero de armonicos a utilizar en la gr&aacute;fica</span>
+<span class="comment">% a, b intevalo para realizar la grafica de la serie</span>
+syms <span class="string">t</span> <span class="string">n</span>
+assume(n,<span class="string">'integer'</span>)
+w0=2*pi/(tf-t0);
+a0=(1/(tf-t0))*int(F,t,t0,tf);
+an=simplify((2/(tf-t0))*int(F*cos(n*w0*t),t,t0,tf));
+bn=simplify((2/(tf-t0))*int(F*sin(n*w0*t),t,t0,tf));
+cn=sqrt((an^2)+(bn^2));
+Cn=matlabFunction(cn);
+C0=abs(a0);
+phin=-1*atan2(bn,an);
+Phin=matlabFunction(phin);
+<span class="keyword">if</span>(a0&gt;=0)
+    Phi0=0;
+<span class="keyword">else</span>
+    Phi0= pi;
+<span class="keyword">end</span>
+sf=C0*cos(Phi0);
+t=a:0.005:b;
+<span class="keyword">for</span> n=1:armo
+    sf=sf+(Cn(n)*cos((w0*n*t)+Phin(n)));
+<span class="keyword">end</span>
+figure (1)
+hFig = figure(1);
+set(hFig, <span class="string">'Position'</span>, [0 0 900 900])
+subplot(3,2,1)
+title(<span class="string">'Serie de Fourier Trigonom&eacute;trica Compacta'</span>);
+plot(t,sf,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+legend(<span class="string">'Serie de Fourier'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+
+sf=C0*cos(Phi0);
+t1=t0:0.005:tf;
+
+<span class="keyword">for</span> n=1:armo
+    sf=sf+(Cn(n)*cos((w0*n*t1)+Phin(n)));
+<span class="keyword">end</span>
+subplot(3,2,2)
+plot(t1,F(t1),<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+hold <span class="string">on</span>
+plot(t1,sf,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2)
+legend(<span class="string">'Funci&oacute;n original'</span>,<span class="string">'Serie de Fourier '</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+nn=0:armo;
+axis <span class="string">auto</span>
+
+subplot(3,2,4)
+e=F(t1)-sf;
+plot(t1,e,<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Error'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+
+subplot(3,2,6)
+e=F(t1)-sf;
+area(t1,e.^2)
+legend(<span class="string">'Energia del error'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+absCn=zeros(1,length(nn));
+cont=1;
+C=matlabFunction(C0);
+c0=C();
+<span class="keyword">for</span> i =0:armo
+    <span class="keyword">if</span> i==0
+        absCn(cont)=c0;
+    <span class="keyword">else</span>
+        cont=cont+1;
+    absCn(cont)=Cn(i);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+subplot(3,2,3)
+stem(w0*nn,absCn,<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Espectro de magnitud C_n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+absPhin=zeros(1,length(nn));
+cont=1;
+<span class="keyword">for</span> i =0:armo
+    <span class="keyword">if</span> i==0
+        absPhin(cont)=Phi0;
+    <span class="keyword">else</span>
+        cont=cont+1;
+        absPhin(cont)=Phin(i);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+subplot(3,2,5) <span class="comment">% % </span>
+stem(w0*nn,absPhin,<span class="string">'LineWidth'</span>,2) <span class="comment">% % </span>
+title(<span class="string">'Espectro de fase \phi _n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16) <span class="comment">% % </span>
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+<span class="keyword">end</span>
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% P05 Series de Fourier en Tiempo Continuo
+% *INTEGRANTES*
+% 
+% * Carlos Josafath López Favila
+% * Iván Rodrigo Santacruz Bravo
+% 
+%% OBJETIVOS
+%%
+% 
+% * Realizar gráficas de series de Fourier exponenciales y trigonométricas en tiempo continuo
+% * Manipulación de instrucciones en MATLAB
+% 
+
+%% Ejemplo 6.2 Agregar la expresión análitica de la serie en ambos formatos. Utilizar A =1.
+% Para este ejercicio debemos de representar las Series de Fourier de la
+% siguiente función: 
+% 
+% 
+% $$x(t)= \left\{ \begin{array}{lcc} 2t &   si  & |t| < \frac{1}{2} \\ \\ 2(1-t) &  si & \frac{1}{2} < x < \frac{3}{2} \\  \end{array} \right.$$
+% 
+% 
+% En el intervalo [-1/2,3/2]
+%
+% Tenemos que la serie de Fourier exponencial compleja de x(t) es
+%
+% $S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{j2n t}$
+% 
+% Donde 
+% 
+% $D_o = 0$
+%
+% $D_n=-j\frac{4}{(n\pi)^2}Sin(\frac{n\pi}{2})$
+%%
+% Para este ejercicio, la serie de Fourier Exponencial es:
+%%
+close
+dn=@(n) -i*(4*sin((n*pi)/2)/((n*pi)^2)); 
+d0=0; 
+t0=-1/2; 
+tf=3/2;
+f=@(t) (2*t).*(heaviside(t+1/2)-heaviside(t-1/2))+(2*(1-t).*(heaviside(t-1/2)-heaviside(t-3/2)));
+armo=15;
+a=-1/2;
+b=10;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%% 
+% Para la serie Trigonométrica compacta sabemos que:
+%
+% $C_0=0$
+%
+% $C_n=\frac{8}{(n\pi)^2}Sin(\frac{n\pi}{2})$
+%
+% Y la serie de Fourier Trigonométrica compacta es:
+%% 
+close
+t0=-1/2; 
+tf=3/2;
+F=@(t) (2*t).*(heaviside(t+1/2)-heaviside(t-1/2))+(2*(1-t).*(heaviside(t-1/2)-heaviside(t-3/2)));
+armo=15;
+a=-1/2;
+b=10;
+SFTC(t0,tf,F,armo,a,b)
+%% Ejemplo 6.4 Agregar la expresión análitica de la serie en ambos formatos.
+% Para este ejercicio debemos de representar las Series de Fourier de la
+% siguiente función: 
+% 
+% 
+% $$x(t)=\left\{ \begin{array}{lcc} 1 &   si  & -\frac{\pi}{2}< t < \frac{\pi}{2} \\ \\ 0 &  si & \frac{\pi}{2} < x < \frac{3\pi}{2} \\  \end{array} \right.$$
+% 
+% 
+% En el intervalo [-pi/2,3*pi/2]
+%
+% Tenemos que la serie de Fourier exponencial compleja de x(t) es
+%
+% $S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{j2\pi n t}$
+% 
+% Donde 
+% 
+% $D_o = \frac{1}{2}$
+%
+% $D_n= \frac{Sin(\frac{n\pi}{2})}{n\pi}$
+%%
+close
+dn=@(n) sin(n*pi/2)/(n*pi); 
+d0=1/2; 
+t0=-pi/2; 
+tf=3*pi/2;
+f=@(t) 1*(heaviside(t+pi/2)-heaviside(t-pi/2));
+armo=15;
+a=-pi/2;
+b=10*pi-pi/2;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%% 
+% Para la serie Trigonométrica compacta sabemos que:
+%
+% $C_0= \frac{1}{2}$
+%
+% $C_n=\frac{Sin(\frac{n\pi}{2})}{n\pi}$
+%
+% Y la serie de Fourier Trigonométrica compacta es:
+%%
+close
+t0=-pi/2; 
+tf=3*pi/2;
+F=@(t) 1*(heaviside(t+pi/2)-heaviside(t-pi/2));
+armo=15;
+a=-pi/2;
+b=10*pi-pi/2;
+SFTC(t0,tf,F,armo,a,b)
+%% PR08 Agregar la expresión análitica de la serie en ambos formatos (hay dos series en esta tarea).
+% Para el inciso a) debemos de representar las Series de Fourier de la
+% siguiente función: 
+% $f(t)=t$ 
+% En el intervalo [-1,1]
+%
+% Tenemos que la serie de Fourier exponencial compleja de f(t) es
+%
+% $S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{jn\pi t}$
+% 
+% Donde 
+% 
+% $D_o = 0$
+%
+% $D_n=j\frac{Cos(n\pi)}{n\pi}$
+
+%%
+% Para el inciso a), la serie de Fourier Exponencial es:
+%%
+close
+dn=@(n) i*(cos(n*pi)/(n*pi)); 
+d0=0; 
+t0=-1; 
+tf=1;
+f=@(t) t;
+armo=15;
+a=-1;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%% 
+% Para la serie Trigonométrica compacta sabemos que:
+%
+% $C_0= 0$
+%
+% $C_n=\frac{-2 Cos(n\pi)}{n\pi}$
+%
+% Y la serie de Fourier Trigonométrica compacta es:
+%%
+close
+t0=-1; 
+tf=1;
+F=@(t) t;
+armo=15;
+a=-1;
+b=9;
+SFTC(t0,tf,F,armo,a,b)
+%%
+% En el siguiente <https://www.desmos.com/calculator/yzo07c9ccn?lang=es
+% enlace> podrás ver la Serie de Fourier Trigonométrica en Desmos
+%%
+% Para el inciso b) debemos de representar las Series de Fourier de la
+% siguiente función: 
+% $f(t)=t^2$
+% En el intervalo [-2,2]
+%
+% Tenemos que la serie de Fourier exponencial compleja de f(t) es
+%
+% $S_f (t)=\sum_{n=-\infty}^{\infty}D_n e^{jn\frac{\pi}{2} t}$
+% 
+% Donde 
+% 
+% $D_o = \frac{4}{3}$
+%
+% $D_n=8\frac{Cos(n\pi)}{(n\pi)^2}$
+%%
+close
+dn=@(n) 8*cos(n*pi)/((n*pi)^2); 
+d0=4/3; 
+t0=-2; 
+tf=2;
+f=@(t) t.^2;
+armo=15;
+a=-2;
+b=18;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%% 
+% Para la serie Trigonométrica compacta sabemos que:
+%
+% $C_0= \frac{4}{3}$
+%
+% $C_n=16\frac{Cos(n\pi)}{(n\pi)^2}$
+%
+% Y la serie de Fourier Trigonométrica compacta es:
+%%
+close
+t0=-2; 
+tf=2;
+F=@(t) t.^2;
+armo=15;
+a=-2;
+b=18;
+SFTC(t0,tf,F,armo,a,b)
+%%
+% En el siguiente <https://www.desmos.com/calculator/gp2zymaakw?lang=es
+% enlace> podrás ver la Serie de Fourier Trigonométrica en Desmos
+%% PR10 Agregar la expresión análitica de la serie en ambos formatos (ejercicio 1 y $a=2$).
+% Para este ejercicio debemos de representar las Series de Fourier de la
+% siguiente función: 
+% 
+% 
+% $$f(t)= 2e^{-2|t|} $$
+% 
+% 
+% En el intervalo [-1,1]
+%
+% Tenemos que la serie de Fourier exponencial compleja de x(t) es
+%
+% $S_f (t)=\sum_{n=-\infty}^{\infty} \frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2} e^{jn\pi t}$
+% 
+% Donde 
+% 
+% $D_o =  0.8647$
+%
+% $D_n= \frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2}$
+%%
+close
+dn=@(n) (4*(1-exp(-2)*cos(n*pi)))/(4+(n*pi)^2); 
+d0= 0.8647; 
+t0=-1; 
+tf=1;
+f=@(t) 2*exp(-2*abs(t));
+armo=15;
+a=-1;
+b=10;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+%% 
+% Para la serie Trigonométrica compacta sabemos que:
+%
+% $C_0=  0.8647$
+%
+% $C_n=2|\frac{4 (1-e^{-2} Cos(n\pi))}{4 + n^2 \pi^2}|$
+%
+% Y la serie de Fourier Trigonométrica compacta es:
+%%
+close
+t0=-1; 
+tf=1;
+F=@(t) 2*exp(-2*abs(t));
+armo=15;
+a=-1;
+b=10;
+SFTC(t0,tf,F,armo,a,b)
+
+%% REFERENCIAS
+%%
+% 
+% * Lathi, E. B. P., & Green, A. P. R. (2017). Linear Systems and Signals (3rd ed.). Oxford University Press, USA.
+%% Apendices 
+%
+% <include>sfc.m</include>
+%
+% <include>SFTC.m</include>
+
+##### SOURCE END #####
+--></body></html>
